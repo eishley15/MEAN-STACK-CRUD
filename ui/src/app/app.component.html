@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>Digital Library Books</h2>
+
+  <div class="form">
+    <input id="newBook" placeholder="Title" />
+    <input id="newAuthor" placeholder="Author" />
+    <input id="newGenre" placeholder="Genre" />
+    <input id="newDesc" placeholder="Description" />
+    <input id="newPrice" placeholder="Price" type="number" />
+    <button (click)="addBook()">Add Book</button>
+  </div>
+
+  <div class="list">
+    @for (book of books; track book.id) {
+
+      @if (editingBook && editingBook.id === book.id) {
+        <!-- Inline edit form -->
+        <div class="book-item edit-mode">
+          <div class="edit-form">
+            <input [(ngModel)]="editingBook.title" placeholder="Title" />
+            <input [(ngModel)]="editingBook.author" placeholder="Author" />
+            <input [(ngModel)]="editingBook.genre" placeholder="Genre" />
+            <input [(ngModel)]="editingBook.desc" placeholder="Description" />
+            <input [(ngModel)]="editingBook.price" placeholder="Price" type="number" />
+          </div>
+          <div class="edit-actions">
+            <button class="save" (click)="saveEdit()">Save</button>
+            <button class="cancel" (click)="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      } @else {
+        <!-- Normal book row -->
+        <div class="book-item">
+          <div class="book-details">
+            <strong>{{ book.title }}</strong>
+            <span>{{ book.author }}</span>
+            <span>{{ book.genre }}</span>
+            <span>{{ book.desc }}</span>
+          </div>
+          <div class="book-right">
+            <span class="price">₱{{ book.price }}</span>
+            <button class="edit" (click)="startEdit(book)">Edit</button>
+            <button class="delete" (click)="deleteBook(book.id)">Delete</button>
+          </div>
+        </div>
+      }
+
+    } @empty {
+      <p class="empty">No books yet.</p>
+    }
+  </div>
+</div>
+
+<router-outlet />
